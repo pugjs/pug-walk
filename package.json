@@ -1,0 +1,22 @@
+{
+  "name": "jade-walk",
+  "version": "0.0.0",
+  "description": "Walk and transform a jade AST",
+  "keywords": [
+    "jade"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "jade-lexer": "0.0.3",
+    "jade-parser": "0.0.2"
+  },
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ForbesLindesay/jade-walk.git"
+  },
+  "author": "ForbesLindesay",
+  "license": "MIT"
+}
