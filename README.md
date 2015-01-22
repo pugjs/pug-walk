@@ -2,8 +2,8 @@
 
 Walk and transform a jade AST
 
-[![Build Status](https://img.shields.io/travis/ForbesLindesay/jade-walk/master.svg)](https://travis-ci.org/ForbesLindesay/jade-walk)
-[![Dependency Status](https://img.shields.io/gemnasium/ForbesLindesay/jade-walk.svg)](https://gemnasium.com/ForbesLindesay/jade-walk)
+[![Build Status](https://img.shields.io/travis/jadejs/jade-walk/master.svg)](https://travis-ci.org/jadejs/jade-walk)
+[![Dependency Status](https://img.shields.io/gemnasium/jadejs/jade-walk.svg)](https://gemnasium.com/jadejs/jade-walk)
 [![NPM version](https://img.shields.io/npm/v/jade-walk.svg)](https://www.npmjs.org/package/jade-walk)
 
 ## Installation
