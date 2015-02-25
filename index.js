@@ -41,6 +41,7 @@ function walkAST(ast, before, after) {
     case 'Literal':
     case 'MixinBlock':
     case 'Text':
+    case 'NewLine':
       break;
     default:
       throw new Error('Unexpected node type ' + ast.type);
