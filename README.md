@@ -26,7 +26,7 @@ var ast = walk(parse(lex('.my-class foo')), function before(node, replace) {
     replace({ type: 'Text', val: 'bar' });
   }
 }, function after(node, replace) {
-  // called before walking the children of `node`
+  // called after walking the children of `node`
   // to replace the node, call `replace(newNode)`
 });
 assert.deepEqual(parse(lex('.my-class bar')), ast);
