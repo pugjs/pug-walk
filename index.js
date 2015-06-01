@@ -1,7 +1,12 @@
 'use strict';
 
 module.exports = walkAST;
-function walkAST(ast, before, after) {
+function walkAST(ast, before, after, options) {
+  if (after && typeof after === 'object' && typeof options === 'undefined') {
+    options = after;
+    after = null;
+  }
+  options = options || {includeDependencies: false};
   function replace(replacement) {
     ast = replacement;
   }
@@ -13,7 +18,7 @@ function walkAST(ast, before, after) {
     case 'NamedBlock':
     case 'Block':
       ast.nodes = ast.nodes.map(function (node) {
-        return walkAST(node, before, after);
+        return walkAST(node, before, after, options);
       });
       break;
     case 'Case':
@@ -23,15 +28,12 @@ function walkAST(ast, before, after) {
     case 'When':
     case 'Code':
       if (ast.block) {
-        ast.block = walkAST(ast.block, before, after);
+        ast.block = walkAST(ast.block, before, after, options);
       }
       break;
     case 'Extends':
     case 'Include':
-      // arguably we should walk into the asts, but that's not what the linker wants
-      if (ast.ast) {
-        //ast.ast = walkAST(ast.ast, before, after);
-      }
+      walkAST(ast.file, before, after, options);
       break;
     case 'Attrs':
     case 'BlockComment':
@@ -41,7 +43,11 @@ function walkAST(ast, before, after) {
     case 'Literal':
     case 'MixinBlock':
     case 'Text':
-    case 'NewLine':
+      break;
+    case 'FileReference':
+      if (options.includeDependencies && ast.ast) {
+        walkAST(ast.ast, before, after, options);
+      }
       break;
     default:
       throw new Error('Unexpected node type ' + ast.type);

@@ -7,8 +7,8 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "jade-lexer": "0.0.3",
-    "jade-parser": "0.0.2"
+    "jade-lexer": "0.0.5",
+    "jade-parser": "0.0.7"
   },
   "scripts": {
     "test": "node test"

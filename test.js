@@ -10,7 +10,7 @@ var ast = walk(parse(lex('.my-class foo')), function before(node, replace) {
   // to replace the node, call `replace(newNode)`
   // return `false` to skip descending
   if (node.type === 'Text') {
-    replace({ type: 'Text', val: 'bar' });
+    replace({ type: 'Text', val: 'bar', line: node.line });
   }
 }, function after(node, replace) {
   // called before walking the children of `node`
