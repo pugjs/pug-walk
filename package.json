@@ -1,6 +1,6 @@
 {
   "name": "jade-walk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Walk and transform a jade AST",
   "keywords": [
     "jade"
