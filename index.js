@@ -22,14 +22,22 @@ function walkAST(ast, before, after, options) {
       });
       break;
     case 'Case':
-    case 'Each':
     case 'Mixin':
     case 'Tag':
+    case 'InterpolatedTag':
     case 'When':
     case 'Code':
     case 'While':
       if (ast.block) {
         ast.block = walkAST(ast.block, before, after, options);
+      }
+      break;
+    case 'Each':
+      if (ast.block) {
+        ast.block = walkAST(ast.block, before, after, options);
+      }
+      if (ast.alternate) {
+        ast.alternate = walkAST(ast.alternate, before, after, options);
       }
       break;
     case 'Conditional':
@@ -51,6 +59,7 @@ function walkAST(ast, before, after, options) {
     case 'Filter':
     case 'Literal':
     case 'MixinBlock':
+    case 'YieldBlock':
     case 'Text':
       break;
     case 'FileReference':
