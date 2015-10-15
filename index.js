@@ -22,6 +22,7 @@ function walkAST(ast, before, after, options) {
       });
       break;
     case 'Case':
+    case 'Filter':
     case 'Mixin':
     case 'Tag':
     case 'InterpolatedTag':
@@ -56,7 +57,6 @@ function walkAST(ast, before, after, options) {
     case 'BlockComment':
     case 'Comment':
     case 'Doctype':
-    case 'Filter':
     case 'Literal':
     case 'MixinBlock':
     case 'YieldBlock':
