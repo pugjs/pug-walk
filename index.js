@@ -49,8 +49,12 @@ function walkAST(ast, before, after, options) {
         ast.alternate = walkAST(ast.alternate, before, after, options);
       }
       break;
-    case 'Extends':
     case 'Include':
+      walkAST(ast.block, before, after, options);
+      walkAST(ast.file, before, after, options);
+      break;
+    case 'Extends':
+    case 'RawInclude':
       walkAST(ast.file, before, after, options);
       break;
     case 'Attrs':
