@@ -1,14 +1,14 @@
 {
   "name": "jade-walk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Walk and transform a jade AST",
   "keywords": [
     "jade"
   ],
   "dependencies": {},
   "devDependencies": {
-    "jade-lexer": "0.0.5",
-    "jade-parser": "0.0.7"
+    "jade-lexer": "^0.0.9",
+    "jade-parser": "^0.0.9"
   },
   "scripts": {
     "test": "node test"
