@@ -1,8 +1,8 @@
 'use strict';
 
 var assert = require('assert');
-var lex = require('jade-lexer');
-var parse = require('jade-parser');
+var lex = require('pug-lexer');
+var parse = require('pug-parser');
 var walk = require('./');
 
 var ast = walk(parse(lex('.my-class foo')), function before(node, replace) {

@@ -1,22 +1,22 @@
-# jade-walk
+# pug-walk
 
-Walk and transform a jade AST
+Walk and transform a pug AST
 
-[![Build Status](https://img.shields.io/travis/jadejs/jade-walk/master.svg)](https://travis-ci.org/jadejs/jade-walk)
-[![Dependency Status](https://img.shields.io/gemnasium/jadejs/jade-walk.svg)](https://gemnasium.com/jadejs/jade-walk)
-[![NPM version](https://img.shields.io/npm/v/jade-walk.svg)](https://www.npmjs.org/package/jade-walk)
+[![Build Status](https://img.shields.io/travis/pugjs/pug-walk/master.svg)](https://travis-ci.org/pugjs/pug-walk)
+[![Dependency Status](https://img.shields.io/gemnasium/pugjs/pug-walk.svg)](https://gemnasium.com/pugjs/pug-walk)
+[![NPM version](https://img.shields.io/npm/v/pug-walk.svg)](https://www.npmjs.org/package/pug-walk)
 
 ## Installation
 
-    npm install jade-walk
+    npm install pug-walk
 
 ## Usage
 
 
 ```js
-var lex = require('jade-lexer');
-var parse = require('jade-parser');
-var walk = require('jade-walk');
+var lex = require('pug-lexer');
+var parse = require('pug-parser');
+var walk = require('pug-walk');
 
 var ast = walk(parse(lex('.my-class foo')), function before(node, replace) {
   // called before walking the children of `node`
