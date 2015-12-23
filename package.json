@@ -1,21 +1,21 @@
 {
-  "name": "jade-walk",
+  "name": "pug-walk",
   "version": "0.0.3",
-  "description": "Walk and transform a jade AST",
+  "description": "Walk and transform a pug AST",
   "keywords": [
-    "jade"
+    "pug"
   ],
   "dependencies": {},
   "devDependencies": {
-    "jade-lexer": "^0.0.9",
-    "jade-parser": "^0.0.9"
+    "pug-lexer": "^1.0.0",
+    "pug-parser": "^1.0.0"
   },
   "scripts": {
     "test": "node test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jadejs/jade-walk.git"
+    "url": "https://github.com/pugjs/pug-walk.git"
   },
   "author": "ForbesLindesay",
   "license": "MIT"
