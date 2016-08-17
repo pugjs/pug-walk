@@ -4,7 +4,8 @@ Walk and transform a pug AST
 
 [![Build Status](https://img.shields.io/travis/pugjs/pug-walk/master.svg)](https://travis-ci.org/pugjs/pug-walk)
 [![Dependency Status](https://img.shields.io/david/pugjs/pug-walk.svg)](https://david-dm.org/pugjs/pug-walk)
-[![NPM version](https://img.shields.io/npm/v/pug-walk.svg)](https://www.npmjs.org/package/pug-walk)
+[![npm version](https://img.shields.io/npm/v/pug-walk.svg)](https://www.npmjs.org/package/pug-walk)
+[![Coverage Status](https://img.shields.io/codecov/c/github/pugjs/pug-walk.svg)](https://codecov.io/gh/pugjs/pug-walk)
 
 ## Installation
 
