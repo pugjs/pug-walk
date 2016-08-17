@@ -9,11 +9,12 @@
   "devDependencies": {
     "istanbul": "*",
     "pug-lexer": "^1.0.0",
-    "pug-parser": "^1.0.0"
+    "pug-parser": "^1.0.0",
+    "testit": "^2.1.2"
   },
   "scripts": {
     "test": "node test",
-    "coverage": "istanbul cover test.js"
+    "coverage": "istanbul cover test"
   },
   "repository": {
     "type": "git",

@@ -7,19 +7,32 @@ function walkAST(ast, before, after, options) {
     after = null;
   }
   options = options || {includeDependencies: false};
-  function replace(replacement) {
+  var parents = options.parents = options.parents || [];
+
+  var replace = function replace(replacement) {
+    if (Array.isArray(replacement) && !replace.arrayAllowed) {
+      throw new Error('replace() can only be called with an array if the last parent is a Block or NamedBlock');
+    }
     ast = replacement;
+  };
+  replace.arrayAllowed = parents[0] && /^(Named)?Block$/.test(parents[0].type);
+
+  if (before) {
+    var result = before(ast, replace);
+    if (result === false) {
+      return ast;
+    } else if (Array.isArray(ast)) {
+      // return right here to skip after() call on array
+      return walkAndMergeNodes(ast);
+    }
   }
-  var result = before && before(ast, replace);
-  if (before && result === false) {
-    return ast;
-  }
+
+  parents.unshift(ast);
+
   switch (ast.type) {
     case 'NamedBlock':
     case 'Block':
-      ast.nodes = ast.nodes.map(function (node) {
-        return walkAST(node, before, after, options);
-      });
+      ast.nodes = walkAndMergeNodes(ast.nodes);
       break;
     case 'Case':
     case 'Filter':
@@ -74,6 +87,20 @@ function walkAST(ast, before, after, options) {
       throw new Error('Unexpected node type ' + ast.type);
       break;
   }
+
+  parents.shift();
+
   after && after(ast, replace);
   return ast;
-};
+
+  function walkAndMergeNodes(nodes) {
+    return nodes.reduce(function (nodes, node) {
+      var result = walkAST(node, before, after, options);
+      if (Array.isArray(result)) {
+        return nodes.concat(result);
+      } else {
+        return nodes.concat([result]);
+      }
+    }, []);
+  }
+}
