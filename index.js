@@ -61,7 +61,6 @@ function walkAST(ast, before, after, options) {
     case 'BlockComment':
     case 'Comment':
     case 'Doctype':
-    case 'Literal':
     case 'MixinBlock':
     case 'YieldBlock':
     case 'Text':
