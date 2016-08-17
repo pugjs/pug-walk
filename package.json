@@ -7,11 +7,13 @@
   ],
   "dependencies": {},
   "devDependencies": {
+    "istanbul": "*",
     "pug-lexer": "^1.0.0",
     "pug-parser": "^1.0.0"
   },
   "scripts": {
-    "test": "node test"
+    "test": "node test",
+    "coverage": "istanbul cover test.js"
   },
   "repository": {
     "type": "git",
