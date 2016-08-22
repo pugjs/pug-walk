@@ -8,8 +8,8 @@
   "dependencies": {},
   "devDependencies": {
     "istanbul": "*",
-    "pug-lexer": "^1.0.0",
-    "pug-parser": "^1.0.0",
+    "pug-lexer": "^2.1.0",
+    "pug-parser": "^2.0.1",
     "testit": "^2.1.2"
   },
   "scripts": {
