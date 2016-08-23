@@ -1,6 +1,6 @@
 {
   "name": "pug-walk",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "Walk and transform a pug AST",
   "keywords": [
     "pug"
@@ -16,6 +16,9 @@
     "test": "node test",
     "coverage": "istanbul cover test"
   },
+  "files": [
+    "index.js"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/pugjs/pug-walk.git"
