@@ -1,6 +1,6 @@
 # pug-walk
 
-Walk and transform a pug AST
+Walk and transform a Pug AST
 
 [![Build Status](https://img.shields.io/travis/pugjs/pug-walk/master.svg)](https://travis-ci.org/pugjs/pug-walk)
 [![Dependency Status](https://img.shields.io/david/pugjs/pug-walk.svg)](https://david-dm.org/pugjs/pug-walk)
@@ -13,24 +13,123 @@ Walk and transform a pug AST
 
 ## Usage
 
+```js
+var walk = require('pug-walk');
+```
+
+### `walk(ast, before, after, options)`
+
+Traverse and optionally transform a Pug AST.
+
+`ast` is not cloned, so any changes done to it will be done directly on the AST provided.
+
+`before` and `after` are functions with the signature `(node, replace)`. `before` is called when a node is first seen, while `after` is called after the children of the node (if any) have already been traversed.
+
+The `replace` parameter is a callback function that can be used to replace the node in the AST. `replace` can also be used to remove this node entirely or add new nodes, by calling `replace` with an array of nodes. This is only possible when the parent node is a Block, as indicated by the property `replace.arrayAllowed`. If it is not possible, and still `replace` is called with an array, `replace` will throw an error.
+
+If `before` returns `false`, the children of this node will not be traversed and left unchanged (unless `replace` has been called). Otherwise, the returned value of `before` is ignored. The returned value of `after` is always ignored.
+
+`options` can contain the following properties:
+
+* `includeDependencies` (boolean): Walk the AST of a loaded dependent file (i.e., includes and extends). Defaults to `false`.
+* `parents` (array<ASTNode>): Nodes that are ancestors to the current `ast`. This option is used mainly internally, and users usually do not have to specify it. Defaults to `[]`.
 
 ```js
 var lex = require('pug-lexer');
 var parse = require('pug-parser');
-var walk = require('pug-walk');
 
-var ast = walk(parse(lex('.my-class foo')), function before(node, replace) {
-  // called before walking the children of `node`
-  // to replace the node, call `replace(newNode)`
-  // return `false` to skip descending
+// Changing content of all Text nodes
+// ==================================
+
+var source = '.my-class foo';
+var dest = '.my-class bar';
+
+var ast = parse(lex(source));
+
+walk(ast, function before(node, replace) {
   if (node.type === 'Text') {
-    replace({ type: 'Text', val: 'bar', line: node.line });
+    node.val = 'bar';
+
+    // Alternatively, you can replace the entire node
+    // rather than just the text.
+    // replace({ type: 'Text', val: 'bar', line: node.line });
   }
-}, function after(node, replace) {
-  // called after walking the children of `node`
-  // to replace the node, call `replace(newNode)`
-}, {includeDependencies: true});
-assert.deepEqual(parse(lex('.my-class bar')), ast);
+}, {
+  includeDependencies: true
+});
+
+assert.deepEqual(parse(lex(dest)), ast);
+
+// Convert all simple <strong> elements to text
+// ============================================
+
+var source = 'p abc #[strong NO]\nstrong on its own line';
+var dest = 'p abc #[| NO]\n| on its own line';
+
+var ast = parse(lex(source));
+
+walk(ast, function before(node, replace) {
+  // Find all <strong> tags
+  if (node.type === 'Tag' && node.name === 'strong') {
+    var children = node.block.nodes;
+
+    // Make sure that the Tag only has one child -- the text
+    if (children.length === 1 && children[0].type === 'Text') {
+      // Replace the Tag with the Text
+      replace({ type: 'Text', val: children[0].val, line: node.line });
+    }
+  }
+}, {
+  includeDependencies: true
+});
+
+assert.deepEqual(parse(lex(dest)), ast);
+
+// Flatten blocks
+// ==============
+
+var ast = {
+  type: 'Block',
+  nodes: [
+    { type: 'Text', val: 'a' },
+    {
+      type: 'Block',
+      nodes: [
+        { type: 'Text', val: 'b' },
+        {
+          type: 'Block',
+          nodes: [ { type: 'Text', val: 'c' } ]
+        },
+        { type: 'Text', val: 'd' }
+      ]
+    },
+    { type: 'Text', val: 'e' }
+  ]
+};
+
+var dest = {
+  type: 'Block',
+  nodes: [
+    { type: 'Text', val: 'a' },
+    { type: 'Text', val: 'b' },
+    { type: 'Text', val: 'c' },
+    { type: 'Text', val: 'd' },
+    { type: 'Text', val: 'e' }
+  ]
+};
+
+// We need to use `after` handler instead of `before`
+// handler because we want to flatten the innermost
+// blocks first before proceeding onto outer blocks.
+
+walk(ast, null, function after(node, replace) {
+  if (node.type === 'Block' && replace.arrayAllowed) {
+    // Replace the block with its contents
+    replace(node.nodes);
+  }
+});
+
+assert.deepEqual(dest, ast);
 ```
 
 ## License
