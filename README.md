@@ -25,7 +25,7 @@ Traverse and optionally transform a Pug AST.
 
 `before` and `after` are functions with the signature `(node, replace)`. `before` is called when a node is first seen, while `after` is called after the children of the node (if any) have already been traversed.
 
-The `replace` parameter is a callback function that can be used to replace the node in the AST. `replace` can also be used to remove this node entirely or add new nodes, by calling `replace` with an array of nodes. This is only possible when the parent node is a Block, as indicated by the property `replace.arrayAllowed`. If it is not possible, and still `replace` is called with an array, `replace` will throw an error.
+The `replace` parameter is a function that can be used to replace the node in the AST. It takes either an object or an array as its only parameter. If an object is specified, the current node is replaced by the parameter in the AST. If an array is specified and the ancestor of the current node is a Block, the node is replaced by all of the nodes in the specified array. This way, you can remove and add new nodes adjacent to the current node. Whether the parent node is a Block or not is indicated by the property `replace.arrayAllowed`.
 
 If `before` returns `false`, the children of this node will not be traversed and left unchanged (unless `replace` has been called). Otherwise, the returned value of `before` is ignored. The returned value of `after` is always ignored.
 
@@ -46,7 +46,7 @@ var dest = '.my-class bar';
 
 var ast = parse(lex(source));
 
-walk(ast, function before(node, replace) {
+ast = walk(ast, function before(node, replace) {
   if (node.type === 'Text') {
     node.val = 'bar';
 
@@ -68,7 +68,7 @@ var dest = 'p abc #[| NO]\n| on its own line';
 
 var ast = parse(lex(source));
 
-walk(ast, function before(node, replace) {
+ast = walk(ast, function before(node, replace) {
   // Find all <strong> tags
   if (node.type === 'Tag' && node.name === 'strong') {
     var children = node.block.nodes;
@@ -122,7 +122,7 @@ var dest = {
 // handler because we want to flatten the innermost
 // blocks first before proceeding onto outer blocks.
 
-walk(ast, null, function after(node, replace) {
+ast = walk(ast, null, function after(node, replace) {
   if (node.type === 'Block' && replace.arrayAllowed) {
     // Replace the block with its contents
     replace(node.nodes);
