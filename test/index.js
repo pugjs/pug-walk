@@ -110,6 +110,34 @@ test('replace([])', function () {
     ], 'before() and after() called incorrectly: ' + JSON.stringify(called));
   });
 
+  test('adding include filters', function () {
+    var ast = walk(parse(lex('include:filter1:filter2 file')), function (node, replace) {
+      if (node.type === 'IncludeFilter') {
+        assert(replace.arrayAllowed);
+        if (node.name === 'filter1') {
+          replace([
+            {
+              type: 'IncludeFilter',
+              name: 'filter3',
+              attrs: [],
+              line: node.line
+            },
+            {
+              type: 'IncludeFilter',
+              name: 'filter4',
+              attrs: [],
+              line: node.line
+            }
+          ]);
+        } else if (node.name === 'filter2') {
+          replace([]);
+        }
+      }
+    });
+
+    assert.deepEqual(ast, parse(lex('include:filter3:filter4 file')));
+  });
+
   test('fails when parent is not Block', function () {
     walk(parse(lex('p content')), function (node, replace) {
       if (node.type === 'Block' && node.nodes[0] && node.nodes[0].type === 'Text') {
