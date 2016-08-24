@@ -27,7 +27,7 @@ Traverse and optionally transform a [Pug AST](https://github.com/pugjs/pug-ast-s
 
 The `replace` parameter is a function that can be used to replace the node in the AST. It takes either an object or an array as its only parameter. If an object is specified, the current node is replaced by the parameter in the AST. If an array is specified and the ancestor of the current node allows such an operation, the node is replaced by all of the nodes in the specified array. This way, you can remove and add new nodes adjacent to the current node. Whether the parent node allows array operation is indicated by the property `replace.arrayAllowed`, which is set to true when the parent is a Block.
 
-If `before` returns `false`, the children of this node will not be traversed and left unchanged (unless `replace` has been called). Otherwise, the returned value of `before` is ignored. The returned value of `after` is always ignored.
+If `before` returns `false`, the children of this node will not be traversed and left unchanged (unless `replace` has been called). Otherwise, the returned value of `before` is ignored. The returned value of `after` is always ignored. If `replace()` is called in `before()` with an array, and `before()` does not return `false`, the nodes in the array are still descended.
 
 `options` can contain the following properties:
 
