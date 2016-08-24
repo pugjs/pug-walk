@@ -19,20 +19,20 @@ var walk = require('pug-walk');
 
 ### `walk(ast, before, after, options)`
 
-Traverse and optionally transform a Pug AST.
+Traverse and optionally transform a [Pug AST](https://github.com/pugjs/pug-ast-spec).
 
 `ast` is not cloned, so any changes done to it will be done directly on the AST provided.
 
 `before` and `after` are functions with the signature `(node, replace)`. `before` is called when a node is first seen, while `after` is called after the children of the node (if any) have already been traversed.
 
-The `replace` parameter is a function that can be used to replace the node in the AST. It takes either an object or an array as its only parameter. If an object is specified, the current node is replaced by the parameter in the AST. If an array is specified and the ancestor of the current node is a Block, the node is replaced by all of the nodes in the specified array. This way, you can remove and add new nodes adjacent to the current node. Whether the parent node is a Block or not is indicated by the property `replace.arrayAllowed`.
+The `replace` parameter is a function that can be used to replace the node in the AST. It takes either an object or an array as its only parameter. If an object is specified, the current node is replaced by the parameter in the AST. If an array is specified and the ancestor of the current node allows such an operation, the node is replaced by all of the nodes in the specified array. This way, you can remove and add new nodes adjacent to the current node. Whether the parent node allows array operation is indicated by the property `replace.arrayAllowed`, which is set to true when the parent is a Block.
 
 If `before` returns `false`, the children of this node will not be traversed and left unchanged (unless `replace` has been called). Otherwise, the returned value of `before` is ignored. The returned value of `after` is always ignored.
 
 `options` can contain the following properties:
 
 * `includeDependencies` (boolean): Walk the AST of a loaded dependent file (i.e., includes and extends). Defaults to `false`.
-* `parents` (array<ASTNode>): Nodes that are ancestors to the current `ast`. This option is used mainly internally, and users usually do not have to specify it. Defaults to `[]`.
+* `parents` (array<Node>): Nodes that are ancestors to the current `ast`. This option is used mainly internally, and users usually do not have to specify it. Defaults to `[]`.
 
 ```js
 var lex = require('pug-lexer');
